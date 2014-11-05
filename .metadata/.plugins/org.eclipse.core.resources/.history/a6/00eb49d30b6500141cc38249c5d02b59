@@ -1,0 +1,20 @@
+package samsung.sip.message;
+
+/**
+*
+* @author tienlucnguyen
+*/
+
+
+
+import java.io.Serializable;
+
+public class MessageBody implements Serializable {
+
+	private int lengthContent;
+	private String content;
+	private String messageBody;
+	
+
+	
+}

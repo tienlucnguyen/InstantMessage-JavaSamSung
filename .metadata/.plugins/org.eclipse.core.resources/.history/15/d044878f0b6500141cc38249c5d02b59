@@ -1,0 +1,5 @@
+package samsung.sip.message;
+
+public class MessageBody {
+
+}

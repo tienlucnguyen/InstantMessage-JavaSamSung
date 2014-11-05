@@ -1,4 +1,4 @@
-!SESSION 2014-11-05 21:40:30.994 -----------------------------------------------
+!SESSION 2014-11-05 23:34:53.602 -----------------------------------------------
 eclipse.buildId=4.4.0.I20140606-1215
 java.version=1.8.0_20
 java.vendor=Oracle Corporation
@@ -6,7 +6,7 @@ BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
 Framework arguments:  -product org.eclipse.epp.package.standard.product
 Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.standard.product
 
-!ENTRY org.eclipse.fx.ide.css 4 0 2014-11-05 21:40:32.365
+!ENTRY org.eclipse.fx.ide.css 4 0 2014-11-05 23:34:54.928
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.css [285]
@@ -39,7 +39,7 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.css.cssext 4 0 2014-11-05 21:40:32.425
+!ENTRY org.eclipse.fx.ide.css.cssext 4 0 2014-11-05 23:34:54.959
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.css.cssext [286]
@@ -75,23 +75,23 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.css.cssext.proposals 4 0 2014-11-05 21:40:32.455
+!ENTRY org.eclipse.fx.ide.css.cssext.proposals 4 0 2014-11-05 23:34:55.022
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.css.cssext.proposals [287]
-  Unresolved requirement: Import-Package: org.eclipse.fx.ide.css.extapi
-    -> Export-Package: org.eclipse.fx.ide.css.extapi; bundle-symbolic-name="org.eclipse.fx.ide.css"; bundle-version="1.0.0.201408150702"; version="0.0.0"; x-internal:="true"
-       org.eclipse.fx.ide.css [285]
-         No resolution report for the bundle.  Unresolved requirement: Import-Package: org.eclipse.fx.ide.css.ui.extapi
+  Unresolved requirement: Import-Package: org.eclipse.fx.ide.css.ui.extapi
     -> Export-Package: org.eclipse.fx.ide.css.ui.extapi; bundle-symbolic-name="org.eclipse.fx.ide.css.ui"; bundle-version="1.0.0.201408150702"; version="0.0.0"; x-internal:="true"
        org.eclipse.fx.ide.css.ui [291]
          Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css; bundle-version="0.9.0"; visibility:="reexport"
            -> Bundle-SymbolicName: org.eclipse.fx.ide.css; bundle-version="1.0.0.201408150702"; singleton:="true"
-  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css.cssext
+              org.eclipse.fx.ide.css [285]
+                No resolution report for the bundle.  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css.cssext
     -> Bundle-SymbolicName: org.eclipse.fx.ide.css.cssext; bundle-version="1.0.0.201408150702"; singleton:="true"
        org.eclipse.fx.ide.css.cssext [286]
          Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css; bundle-version="0.9.0"
            -> Bundle-SymbolicName: org.eclipse.fx.ide.css; bundle-version="1.0.0.201408150702"; singleton:="true"
+  Unresolved requirement: Import-Package: org.eclipse.fx.ide.css.extapi
+    -> Export-Package: org.eclipse.fx.ide.css.extapi; bundle-symbolic-name="org.eclipse.fx.ide.css"; bundle-version="1.0.0.201408150702"; version="0.0.0"; x-internal:="true"
   Bundle was not resolved because of a uses contraint violation.
   org.osgi.service.resolver.ResolutionException: Uses constraint violation. Unable to resolve resource org.eclipse.fx.ide.css [osgi.identity; osgi.identity="org.eclipse.fx.ide.css"; type="osgi.bundle"; version:Version="1.0.0.201408150702"; singleton:="true"] because it is exposed to package 'javax.annotation' from resources org.eclipse.osgi [osgi.identity; osgi.identity="org.eclipse.osgi"; type="osgi.bundle"; version:Version="3.10.0.v20140606-1445"; singleton:="true"] and javax.annotation [osgi.identity; osgi.identity="javax.annotation"; type="osgi.bundle"; version:Version="1.2.0.v201401042248"] via two dependency chains.
 
@@ -121,20 +121,20 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.css.cssext.ui 4 0 2014-11-05 21:40:32.525
+!ENTRY org.eclipse.fx.ide.css.cssext.ui 4 0 2014-11-05 23:34:55.084
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.css.cssext.ui [288]
-  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css.cssext; visibility:="reexport"
-    -> Bundle-SymbolicName: org.eclipse.fx.ide.css.cssext; bundle-version="1.0.0.201408150702"; singleton:="true"
-       org.eclipse.fx.ide.css.cssext [286]
-         Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css; bundle-version="0.9.0"
-           -> Bundle-SymbolicName: org.eclipse.fx.ide.css; bundle-version="1.0.0.201408150702"; singleton:="true"
-              org.eclipse.fx.ide.css [285]
-                No resolution report for the bundle.  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css.ui; bundle-version="0.9.0"
+  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css.ui; bundle-version="0.9.0"
     -> Bundle-SymbolicName: org.eclipse.fx.ide.css.ui; bundle-version="1.0.0.201408150702"; singleton:="true"
        org.eclipse.fx.ide.css.ui [291]
          Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css; bundle-version="0.9.0"; visibility:="reexport"
+           -> Bundle-SymbolicName: org.eclipse.fx.ide.css; bundle-version="1.0.0.201408150702"; singleton:="true"
+              org.eclipse.fx.ide.css [285]
+                No resolution report for the bundle.  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css.cssext; visibility:="reexport"
+    -> Bundle-SymbolicName: org.eclipse.fx.ide.css.cssext; bundle-version="1.0.0.201408150702"; singleton:="true"
+       org.eclipse.fx.ide.css.cssext [286]
+         Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.css; bundle-version="0.9.0"
            -> Bundle-SymbolicName: org.eclipse.fx.ide.css; bundle-version="1.0.0.201408150702"; singleton:="true"
   Bundle was not resolved because of a uses contraint violation.
   org.osgi.service.resolver.ResolutionException: Uses constraint violation. Unable to resolve resource org.eclipse.fx.ide.css.cssext [osgi.identity; osgi.identity="org.eclipse.fx.ide.css.cssext"; type="osgi.bundle"; version:Version="1.0.0.201408150702"; singleton:="true"] because it is exposed to package 'javax.annotation' from resources org.eclipse.osgi [osgi.identity; osgi.identity="org.eclipse.osgi"; type="osgi.bundle"; version:Version="3.10.0.v20140606-1445"; singleton:="true"] and javax.annotation [osgi.identity; osgi.identity="javax.annotation"; type="osgi.bundle"; version:Version="1.2.0.v201401042248"] via two dependency chains.
@@ -165,7 +165,7 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.css.ui 4 0 2014-11-05 21:40:32.645
+!ENTRY org.eclipse.fx.ide.css.ui 4 0 2014-11-05 23:34:55.225
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.css.ui [291]
@@ -201,7 +201,7 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.java6 4 0 2014-11-05 21:40:32.645
+!ENTRY org.eclipse.fx.ide.java6 4 0 2014-11-05 23:34:55.225
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.java6 [296]
@@ -216,7 +216,7 @@ org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.pde.ui 4 0 2014-11-05 21:40:32.685
+!ENTRY org.eclipse.fx.ide.pde.ui 4 0 2014-11-05 23:34:55.271
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.pde.ui [301]
@@ -252,18 +252,18 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.pde.ui.e4 4 0 2014-11-05 21:40:32.735
+!ENTRY org.eclipse.fx.ide.pde.ui.e4 4 0 2014-11-05 23:34:55.318
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.pde.ui.e4 [302]
-  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.pde.ui; bundle-version="0.9.0"
+  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.rrobot.dsl; bundle-version="0.9.0"
+    -> Bundle-SymbolicName: org.eclipse.fx.ide.rrobot.dsl; bundle-version="1.0.0.201408150702"; singleton:="true"
+       org.eclipse.fx.ide.rrobot.dsl [304]
+         No resolution report for the bundle.  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.pde.ui; bundle-version="0.9.0"
     -> Bundle-SymbolicName: org.eclipse.fx.ide.pde.ui; bundle-version="1.0.0.201408150702"; singleton:="true"
        org.eclipse.fx.ide.pde.ui [301]
          Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.rrobot.dsl; bundle-version="0.9.0"
            -> Bundle-SymbolicName: org.eclipse.fx.ide.rrobot.dsl; bundle-version="1.0.0.201408150702"; singleton:="true"
-              org.eclipse.fx.ide.rrobot.dsl [304]
-                No resolution report for the bundle.  Unresolved requirement: Require-Bundle: org.eclipse.fx.ide.rrobot.dsl; bundle-version="0.9.0"
-    -> Bundle-SymbolicName: org.eclipse.fx.ide.rrobot.dsl; bundle-version="1.0.0.201408150702"; singleton:="true"
   Bundle was not resolved because of a uses contraint violation.
   org.osgi.service.resolver.ResolutionException: Uses constraint violation. Unable to resolve resource org.eclipse.fx.ide.rrobot.dsl [osgi.identity; osgi.identity="org.eclipse.fx.ide.rrobot.dsl"; type="osgi.bundle"; version:Version="1.0.0.201408150702"; singleton:="true"] because it is exposed to package 'javax.annotation' from resources org.eclipse.osgi [osgi.identity; osgi.identity="org.eclipse.osgi"; type="osgi.bundle"; version:Version="3.10.0.v20140606-1445"; singleton:="true"] and javax.annotation [osgi.identity; osgi.identity="javax.annotation"; type="osgi.bundle"; version:Version="1.2.0.v201401042248"] via two dependency chains.
 
@@ -293,7 +293,7 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.rrobot.dsl 4 0 2014-11-05 21:40:32.775
+!ENTRY org.eclipse.fx.ide.rrobot.dsl 4 0 2014-11-05 23:34:55.349
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.rrobot.dsl [304]
@@ -326,7 +326,7 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.fx.ide.rrobot.dsl.ui 4 0 2014-11-05 21:40:32.825
+!ENTRY org.eclipse.fx.ide.rrobot.dsl.ui 4 0 2014-11-05 23:34:55.412
 !MESSAGE FrameworkEvent ERROR
 !STACK 0
 org.osgi.framework.BundleException: Could not resolve module: org.eclipse.fx.ide.rrobot.dsl.ui [305]
@@ -362,7 +362,7 @@ Chain 2:
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
 
-!ENTRY org.eclipse.egit.ui 2 0 2014-11-05 21:40:55.411
+!ENTRY org.eclipse.egit.ui 2 0 2014-11-05 23:35:25.695
 !MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
 user global configuration and to define the default location to store repositories: 'C:\Users\TIENLUC'. If this is
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and

@@ -1,0 +1,9 @@
+package samsung.sip.message;
+
+import java.io.Serializable;
+
+public class MessageBody implements Serializable {
+
+	
+	
+}

@@ -1,0 +1,10 @@
+package samsung.sip.message;
+
+import java.io.Serializable;
+
+
+public class HeaderField implements Serializable{
+
+	
+	
+}

@@ -1,0 +1,26 @@
+package samsung.sip.message;
+
+import java.io.Serializable;
+
+import samsung.sip.url.*;
+
+public class HeaderField implements Serializable {
+
+	private ContactAddress from;
+	private ContactAddress to;
+	private ContactAddress viaAgent;
+	private ContactAddress viaServer;
+	private String headerField;
+	public HeaderField(ContactAddress from, ContactAddress to,
+			ContactAddress viaAgent, ContactAddress viaServer,
+			String headerField) {
+		super();
+		this.from = from;
+		this.to = to;
+		this.viaAgent = viaAgent;
+		this.viaServer = viaServer;
+		this.headerField = headerField;
+	}
+	
+
+}

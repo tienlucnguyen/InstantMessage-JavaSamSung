@@ -1,0 +1,12 @@
+package samsung.sip.message;
+
+import java.io.Serializable;
+import samsung.sip.url.*;
+
+
+public class HeaderField implements Serializable{
+
+	
+	
+	
+}
