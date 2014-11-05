@@ -1,0 +1,15 @@
+package samsung.sip.url;
+
+import java.io.Serializable;
+
+/**
+*
+* @author auto
+*/
+
+public class ContactAddress implements Serializable{
+
+	
+	
+	
+}

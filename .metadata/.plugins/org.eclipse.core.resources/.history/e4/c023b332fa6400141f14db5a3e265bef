@@ -1,0 +1,24 @@
+package samsung.sip.url;
+
+import java.io.Serializable;
+
+/**
+*
+* @author auto
+*/
+
+
+public class AOR implements Serializable{
+
+	
+	private String name;
+	private String host;
+	private String AOR;
+	public AOR
+	
+	
+	
+	
+	
+	
+}
