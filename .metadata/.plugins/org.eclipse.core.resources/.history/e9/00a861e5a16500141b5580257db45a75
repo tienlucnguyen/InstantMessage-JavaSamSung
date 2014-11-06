@@ -1,0 +1,21 @@
+package samsung.sip.message;
+
+/**
+*
+* @author tienlucnguyen
+*/
+import samsung.sip.url.*;
+
+public class StatusLine {
+
+	private String statusLine;
+	private String sipVersion;
+	//Thong so su dung cho StatusLine cua Request
+	private AOR requestAOR;
+	private String requestName;
+	//Thong so su dung cho StatusLine cua Respone
+	
+	private int sipCode;
+	
+	
+}

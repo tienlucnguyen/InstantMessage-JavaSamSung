@@ -1,0 +1,13 @@
+package samsung.sip.message;
+
+/**
+*
+* @author tienlucnguyen
+*/
+
+
+public class StatusLine {
+
+	
+	
+}

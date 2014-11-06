@@ -1,0 +1,19 @@
+package samsung.sip.message;
+
+import java.io.Serializable;
+
+/**
+*
+* @author tienlucnguyen
+*/
+
+public class SipMessage implements Serializable{
+
+	private String type;
+	private StatusLine statusLine;
+	private HeaderField headerField;
+	private MessageBody messageBody;
+	
+	
+	
+}
