@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;SipURL&apos;" deleteContents="false" description="Delete resource &apos;SipURL&apos;" element1="/SipURL" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1415206056187"/>
-</session>
