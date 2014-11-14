@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="745.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <tabs>
+    <Tab fx:id="tabDatabase" text="Database">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="665.0">
+               <children>
+                  <TableView prefHeight="368.0" prefWidth="745.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="ID" />
+                      <TableColumn prefWidth="152.0" text="AOR" />
+                        <TableColumn prefWidth="187.0" text="Contact Address" />
+                        <TableColumn prefWidth="149.0" text="Status" />
+                        <TableColumn prefWidth="181.0" text="Offline Messages" />
+                    </columns>
+                  </TableView>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab fx:id="tabEvent" text="Event">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextArea layoutX="-1.0" prefHeight="366.0" prefWidth="745.0" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
