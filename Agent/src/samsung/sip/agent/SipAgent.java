@@ -13,7 +13,6 @@ public class SipAgent extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Parent root=FXMLLoader.load(getClass().getResource("Agent.fxml"));
-			
 			Scene scene = new Scene(root,719,536);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -21,6 +20,7 @@ public class SipAgent extends Application {
 			primaryStage.setTitle("Sip Agent");
 		} catch(Exception e) {
 			e.printStackTrace();
+			
 		}
 	}
 	
