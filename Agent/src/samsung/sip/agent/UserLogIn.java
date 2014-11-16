@@ -5,26 +5,52 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 
 public class UserLogIn extends Application {
+
+	Button btnLogin;
+	Button btnCreate;
+	TextField txtUser;
+	TextField txtPass;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			
 			connectDatabase();
 			Parent root=FXMLLoader.load(getClass().getResource("LogIn.fxml"));
-			Scene scene = new Scene(root,378,267);
+			Scene scene = new Scene(root,378,296);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			primaryStage.setTitle("Welcome");
+			btnCreate=(Button) scene.lookup("#btnCreate");
+			btnLogin=(Button) scene.lookup("#btnLogIn");
+			txtPass=(TextField) scene.lookup("textPass");
+			txtUser=(TextField) scene.lookup("textName");
+			
+			
+			
+			
+			
+			
+			
 		
+			
+			
+			
+			
+			
+			
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -68,8 +94,7 @@ public class UserLogIn extends Application {
 			while (rs.next()) {
 
 				System.out.println(rs.getInt(1) + ": " + rs.getString(2));
-
-				// System.out.println(rs.getString(1));
+				
 
 			}
 			rs.close();
