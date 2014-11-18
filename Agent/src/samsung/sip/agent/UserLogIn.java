@@ -1,5 +1,6 @@
 package samsung.sip.agent;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -49,17 +50,27 @@ public class UserLogIn extends Application {
 					Statement st;
 					try {
 						st = connect.createStatement();
-						ResultSet rs = st.executeQuery("Select password from account where name='"+userName+"'");
-						if(rs.next()){
-							if(rs.getString(1).equalsIgnoreCase(pass))
+						ResultSet rs = st
+								.executeQuery("Select password from account where name='"
+										+ userName + "'");
+						if (rs.next()) {
+							if (rs.getString(1).equalsIgnoreCase(pass)) {
 								System.out.println("Dang nhap thanh cong");
-							
-						
-						}
-						else
-							System.out.println("Chua co tai khoan xin moi nhap tai khoan moi");
-					
-						
+
+								primaryStage.close();
+								new SipAgent().start(primaryStage);
+								
+								
+
+							}
+
+							else
+								System.out
+										.println("Sai mat khau xin moi nhap lai: ");
+
+						} else
+							System.out
+									.println("Chua co tai khoan xin moi nhap tai khoan moi");
 
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -67,6 +78,7 @@ public class UserLogIn extends Application {
 					}
 
 				}
+
 			});
 
 		} catch (Exception e) {
@@ -107,12 +119,14 @@ public class UserLogIn extends Application {
 		// --------------------------------------------------
 		try {
 			Statement st = connect.createStatement();
-			String userName="vankhang";
-			ResultSet rs = st.executeQuery("Select * from account where name='"+userName+"'");
-			
+			String userName = "vankhang";
+			ResultSet rs = st.executeQuery("Select * from account where name='"
+					+ userName + "'");
+
 			if (rs.next()) {
 
-				System.out.println(rs.getInt(1) + ": " + rs.getString(2)+": "+rs.getString(3));
+				System.out.println(rs.getInt(1) + ": " + rs.getString(2) + ": "
+						+ rs.getString(3));
 
 			}
 			rs.close();
