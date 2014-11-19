@@ -28,6 +28,7 @@ public class UserLogIn extends Application {
 	TextField txtPass;
 	Connection connect;
 	CheckBox checkPass;
+	Statement st;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -50,7 +51,7 @@ public class UserLogIn extends Application {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					Statement st;
+
 					if (checkPass.isSelected()) {
 
 						try {
@@ -89,7 +90,6 @@ public class UserLogIn extends Application {
 				@Override
 				public void handle(Event arg0) {
 
-					Statement st;
 					String userName = txtUser.getText().toString().trim();
 					String pass = "";
 					try {
