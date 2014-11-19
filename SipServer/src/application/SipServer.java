@@ -3,6 +3,7 @@ package application;
 import java.awt.event.TextEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -29,15 +30,15 @@ public class SipServer extends Application {
 	private SipMessage sipMessage;
 	private SipMessage OKMessage, updateMessage;
 	private String agent1IP, agent2IP;
-	private AOR agent1AOR = new AOR("son", "yahoo.com");
-	private AOR agent2AOR = new AOR("luc", "yahoo.com");
+	private AOR agent1AOR = new AOR("ngocson", "yahoo.com");
+	private AOR agent2AOR = new AOR("tienluc", "yahoo.com");
 	private ContactAddress agent1ContactAddress, agent2ContactAddress;
 	private AOR serverAOR = new AOR("server", "yahoo.com");
 	private ContactAddress serverContactAddress = new ContactAddress("server",
 			"localhost");
-	private Object[] user1Infor = new Object[] { 1, "son@yahoo.com", null,
+	private Object[] user1Infor = new Object[] { 1, "ngocson@yahoo.com", null,
 			"Offline", 0 };
-	private Object[] user2Infor = new Object[] { 2, "son@yahoo.com", null,
+	private Object[] user2Infor = new Object[] { 2, "ngocson@yahoo.com", null,
 			"Offline", 0 };
 	private final Object[] columnName = { "ID", "AOR", "Contact Address",
 			"Status", "Offline Message" };
@@ -87,90 +88,94 @@ public class SipServer extends Application {
 				// REGISTER Online
 				if (messageBody.getContent().equals("Online")) {
 
-					// If message from user1: son@yahoo.com
-					if (headerField.getFrom().getName().equals("son")) {
+					// If message from user1: ngocson@yahoo.com
+					if (headerField.getFrom().getName().equals("ngocson")) {
 						// update user1Infor
 						user1Infor[2] = sipMessage.getHeaderField().getFrom()
 								.getContactAddress();
 						agent1IP = sipMessage.getHeaderField().getContact()
 								.getAddress();
-						agent1ContactAddress = new ContactAddress("son",
+						agent1ContactAddress = new ContactAddress("ngocson",
 								agent1IP);
 
 						user1Infor[3] = "Online";
 						// send200OK(agent1Port);
-						// forwardSTORE("son");
+						// forwardSTORE("ngocson");
 						// loadTable();
-						// If message from user2: luc@yahoo.com
-					} else if (headerField.getFrom().getName().equals("luc")) {
+						// If message from user2: tienluc@yahoo.com
+					} else if (headerField.getFrom().getName()
+							.equals("tienluc")) {
 						// update user2Infor
 						user2Infor[2] = sipMessage.getHeaderField().getFrom()
 								.getContactAddress();
 						agent2IP = sipMessage.getHeaderField().getContact()
 								.getAddress();
-						agent2ContactAddress = new ContactAddress("luc",
+						agent2ContactAddress = new ContactAddress("tienluc",
 								agent2IP);
 						user2Infor[3] = "Online";
 						// send200OK(agent2Port);
-						// forwardSTORE("luc");
+						// forwardSTORE("tienluc");
 						// loadTable();
 
 					}
 					// REGISTER Offline
 				} else {
-					if (headerField.getFrom().getName().equals("son")) {
+					if (headerField.getFrom().getName().equals("ngocson")) {
 						user1Infor[2] = null;
 						agent1IP = null;
 						// System.out.println(Agent1IP);
-						agent1ContactAddress = new ContactAddress("son",
+						agent1ContactAddress = new ContactAddress("ngocson",
 								agent1IP);
 						user1Infor[3] = "Offline";
 						// loadTable();
-						// Send updateMessage to luc@yahoo.com if luc is online
+						// Send updateMessage to tienluc@yahoo.com if tienluc is
+						// online
 
-					} else if (headerField.getFrom().getName().equals("luc")) {
+					} else if (headerField.getFrom().getName()
+							.equals("tienluc")) {
 						user2Infor[2] = null;
 						agent2IP = null;
-						agent2ContactAddress = new ContactAddress("luc",
+						agent2ContactAddress = new ContactAddress("tienluc",
 								agent2IP);
 						user2Infor[3] = "Offline";
 						// loadTable();
-						// Send updateMessage to son@yahoo.com if son is online
+						// Send updateMessage to ngocson@yahoo.com if ngocson is
+						// online
 
 					}
 				}
 				// Receive INVITE
 			} else if (sipMessage.getStatusLine().getRequestName()
 					.equals("INVITE")) {
-				// Neu la INVITE tu Agent1 (son)
+				// Neu la INVITE tu Agent1 (ngocson)
 				if (sipMessage.getHeaderField().getFrom().getName()
-						.equals("son")) {
-					// Neu luc@yahoo.com offline, send 200OK
+						.equals("ngocson")) {
+					// Neu tienluc@yahoo.com offline, send 200OK
 
 					if (user2Infor[3].equals("Offline")) {
 						// send200OK(Agent1Port);
 					} else {
-						// forwardMESSAGE("luc");
+						// forwardMESSAGE("tienluc");
 					}
-					// Neu la INVITE tu Agent2 (luc)
+					// Neu la INVITE tu Agent2 (tienluc)
 				} else if (sipMessage.getHeaderField().getFrom().getName()
-						.equals("luc")) {
-					// Neu luc@yahoo.com offline, send 200OK
+						.equals("tienluc")) {
+					// Neu tienluc@yahoo.com offline, send 200OK
 					if (user1Infor[3].equals("Offline")) {
 						// send200OK(Agent2Port);
 					} else {
-						// forwardMESSAGE("son");
+						// forwardMESSAGE("ngocson");
 					}
 				}
 			} // Receive BYE
 			else if (sipMessage.getStatusLine().getRequestName().equals("BYE")) {
 				if (sipMessage.getHeaderField().getFrom().getName()
-						.equals("son")) {
-					// forwardMESSAGE("luc");
-					// Neu la INVITE tu Agent2 (luc)
+						.equals("ngocson")) {
+					// forwardMESSAGE("tienluc");
+					// Neu la INVITE tu Agent2 (tienluc)
 				} else if (sipMessage.getHeaderField().getFrom().getName()
-						.equals("luc")) {
-					// forwardMESSAGE("son");
+						.equals("tienluc")) {
+					// forwardMESSAGE("ngocson");
 
 				}
 
@@ -178,12 +183,12 @@ public class SipServer extends Application {
 			// IF RECEIVER STORE MESSAGE
 			else if (sipMessage.getType().equals("store")) {
 				String storeTo = sipMessage.getHeaderField().getTo().getName();
-				// If send to user1Infor: son
-				if (storeTo.equals("son")) {
+				// If send to user1Infor: ngocson
+				if (storeTo.equals("ngocson")) {
 					user1Store.add(sipMessage);
 					user1Infor[4] = user1Store.size();
 					// loadTable();
-				} else if (storeTo.equals("luc")) {
+				} else if (storeTo.equals("tienluc")) {
 					user2Store.add(sipMessage);
 					user2Infor[4] = user2Store.size();
 					// oadTable();
@@ -191,17 +196,57 @@ public class SipServer extends Application {
 
 			} else if (sipMessage.getType().equals("response")) {
 				if (sipMessage.getHeaderField().getFrom().getName()
-						.equals("son")) {
-					// forwardMESSAGE("luc");
-					// Neu la INVITE tu Agent2 (luc)
+						.equals("ngocson")) {
+					// forwardMESSAGE("tienluc");
+					// Neu la INVITE tu Agent2 (tienluc)
 				} else if (sipMessage.getHeaderField().getFrom().getName()
-						.equals("luc")) {
-					// forwardMESSAGE("son");
+						.equals("tienluc")) {
+					// forwardMESSAGE("ngocson");
 
 				}
 			}
 
 		}
+
+	}
+
+	public void send200OK(int port) {
+		ObjectOutputStream OO = null;
+		String From = sipMessage.getHeaderField().getFrom().getName();
+		try {
+			// Statusline: SIP 2.0 200 OK
+			StatusLine statusLine = new StatusLine("SIP 2.0", 200, "OK");
+			// Header Field: From: Server
+			// From: Server
+			// To: Agent
+			// Via: Agent
+			// Via Server
+			// Contact: Server
+			ContactAddress agentContactAddress = sipMessage.getHeaderField()
+					.getFrom();
+			HeaderField headerField = new HeaderField(serverContactAddress,
+					agentContactAddress, agentContactAddress,
+					serverContactAddress, serverContactAddress);
+			// MessageBody:
+			// Content-Length: 5
+			// Content: 200OK
+			//
+
+			MessageBody mesageBody = new MessageBody(5, "200 OK");
+			// OKMessage
+			OKMessage = new SipMessage("response", statusLine, headerField,
+					mesageBody);
+			// Send OKMessage
+			String agentIP = sipMessage.getHeaderField().getFrom().getAddress();
+			socketAgent = new Socket(agentIP, port);
+			OO = new ObjectOutputStream(socketAgent.getOutputStream());
+			OO.writeObject(OKMessage);
+			socketAgent.close();
+			OO.close();
+		} catch (IOException ex) {
+			System.out.println(ex.toString());
+		}
+		System.out.println("Sent 200 OK");
 
 	}
 
