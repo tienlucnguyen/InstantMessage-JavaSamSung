@@ -6,5 +6,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SipMessage"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SipURL"/>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="SipMessage.jar"/>
+	<classpathentry kind="lib" path="SipURL.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

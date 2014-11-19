@@ -1,20 +1,23 @@
 package samsung.sip.agent;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 public class UserLogIn extends Application {
@@ -24,6 +27,7 @@ public class UserLogIn extends Application {
 	TextField txtUser;
 	TextField txtPass;
 	Connection connect;
+	CheckBox checkPass;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -41,6 +45,70 @@ public class UserLogIn extends Application {
 			btnLogin = (Button) scene.lookup("#btnLogIn");
 			txtPass = (TextField) scene.lookup("#textPass");
 			txtUser = (TextField) scene.lookup("#textName");
+			checkPass = (CheckBox) scene.lookup("#checkPass");
+			checkPass.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					Statement st;
+					if (checkPass.isSelected()) {
+
+						try {
+							st = connect.createStatement();
+							String userName = txtUser.getText().toString()
+									.trim();
+							st.executeUpdate("update account set remember=1 where name='"
+									+ userName + "'");
+
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					} else {
+
+						try {
+							st = connect.createStatement();
+							String userName = txtUser.getText().toString()
+									.trim();
+							st.executeUpdate("update account set remember=0 where name='"
+									+ userName + "'");
+
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+
+				}
+			});
+
+			txtPass.setOnMouseClicked(new EventHandler<Event>() {
+
+				@Override
+				public void handle(Event arg0) {
+
+					Statement st;
+					String userName = txtUser.getText().toString().trim();
+					String pass = "";
+					try {
+						st = connect.createStatement();
+						ResultSet rs = st
+								.executeQuery("Select password from account where name='"
+										+ userName + "'");
+						if (rs.next())
+							pass = rs.getString(1);
+						txtPass.setText(pass);
+
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+			});
+
 			btnLogin.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -55,22 +123,22 @@ public class UserLogIn extends Application {
 										+ userName + "'");
 						if (rs.next()) {
 							if (rs.getString(1).equalsIgnoreCase(pass)) {
-								System.out.println("Dang nhap thanh cong");
+
+								JOptionPane.showMessageDialog(null,
+										"Đã đăng nhập thành công");
 
 								primaryStage.close();
 								new SipAgent().start(primaryStage);
-								
-								
 
 							}
 
 							else
-								System.out
-										.println("Sai mat khau xin moi nhap lai: ");
+								JOptionPane.showMessageDialog(null,
+										"Sai mật khẩu xin mời nhập lại");
 
 						} else
-							System.out
-									.println("Chua co tai khoan xin moi nhap tai khoan moi");
+							JOptionPane.showMessageDialog(null,
+									"Tài khoản này không tồn tại");
 
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
