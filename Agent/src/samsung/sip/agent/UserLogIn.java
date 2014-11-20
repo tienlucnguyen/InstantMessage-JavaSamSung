@@ -34,7 +34,6 @@ public class UserLogIn extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-			connectDatabase();
 			Parent root = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
 			Scene scene = new Scene(root, 378, 296);
 			scene.getStylesheets().add(
@@ -47,43 +46,7 @@ public class UserLogIn extends Application {
 			txtPass = (TextField) scene.lookup("#textPass");
 			txtUser = (TextField) scene.lookup("#textName");
 			checkPass = (CheckBox) scene.lookup("#checkPass");
-			checkPass.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-
-					if (checkPass.isSelected()) {
-
-						try {
-							st = connect.createStatement();
-							String userName = txtUser.getText().toString()
-									.trim();
-							st.executeUpdate("update account set remember=1 where name='"
-									+ userName + "'");
-
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					} else {
-
-						try {
-							st = connect.createStatement();
-							String userName = txtUser.getText().toString()
-									.trim();
-							st.executeUpdate("update account set remember=0 where name='"
-									+ userName + "'");
-
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					}
-
-				}
-			});
+			connectDatabase();
 
 			txtPass.setOnMouseClicked(new EventHandler<Event>() {
 
@@ -92,14 +55,22 @@ public class UserLogIn extends Application {
 
 					String userName = txtUser.getText().toString().trim();
 					String pass = "";
+					int rememberPass = 0;
+
 					try {
+
 						st = connect.createStatement();
 						ResultSet rs = st
-								.executeQuery("Select password from account where name='"
+								.executeQuery("Select * from account where name='"
 										+ userName + "'");
-						if (rs.next())
-							pass = rs.getString(1);
-						txtPass.setText(pass);
+
+						if (rs.next()) {
+							pass = rs.getString(3);
+							rememberPass = rs.getInt(4);
+
+						}
+						if (rememberPass == 1)
+							txtPass.setText(pass);
 
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -139,6 +110,14 @@ public class UserLogIn extends Application {
 						} else
 							JOptionPane.showMessageDialog(null,
 									"Tài khoản này không tồn tại");
+
+						if (checkPass.isSelected())
+
+							st.executeUpdate("update account set remember=1 where name='"
+									+ userName + "'");
+						else
+							st.executeUpdate("update account set remember=0 where name='"
+									+ userName + "'");
 
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -193,8 +172,12 @@ public class UserLogIn extends Application {
 
 			if (rs.next()) {
 
-				System.out.println(rs.getInt(1) + ": " + rs.getString(2) + ": "
-						+ rs.getString(3));
+				int re = rs.getInt(4);
+				if (re == 1)
+					checkPass.setSelected(true);
+				else
+
+					checkPass.setSelected(false);
 
 			}
 			rs.close();
