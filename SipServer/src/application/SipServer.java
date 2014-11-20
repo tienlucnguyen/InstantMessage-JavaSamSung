@@ -250,6 +250,50 @@ public class SipServer extends Application {
 
 	}
 
+	public void sendUPDATE(AOR desAOR, ContactAddress desContactAddress,
+			String Content, int port) {
+		ObjectOutputStream updateObject = null;
+		int length = 0;
+		if (Content != null) {
+			length = Content.length();
+
+		}
+		try {
+			socketAgent = new Socket(desContactAddress.getAddress(), port);
+			System.out.println(desContactAddress.getAddress());
+			// StatusLine
+			// UPDATE ngocson@yahoo.com SIP 2.0
+			StatusLine statusLine = new StatusLine("UPDATE", desAOR, "SIP 2.0");
+			// HeaderField
+			// From:Server
+			// To:desContactAddress
+			// Via:Agent
+			// Via: Server
+			// Contact: server
+			HeaderField headerField = new HeaderField(serverContactAddress,
+					desContactAddress, desContactAddress, serverContactAddress,
+					serverContactAddress);
+			// MessageBody
+			// Content-Length:
+			// Content:
+			MessageBody messageBody = new MessageBody(length, Content);
+			// updateMessage
+			updateMessage = new SipMessage("update", statusLine, headerField,
+					messageBody);
+			// Send updateMessage
+
+			updateObject = new ObjectOutputStream(socketAgent.getOutputStream());
+			updateObject.writeObject(updateMessage);
+			System.out.println(updateMessage.getSipMessage());
+			socketAgent.close();
+			updateObject.close();
+
+		} catch (IOException ex) {
+			System.out.println(ex.toString());
+		}
+
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
