@@ -1,4 +1,4 @@
-package samsung.sip.agent;
+package samsung.sip.agent.agent;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,11 +34,12 @@ public class UserLogIn extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-			Parent root = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/samsung/sip/giaodien/LogIn.fxml"));
 			Scene scene = new Scene(root, 378, 296);
 			scene.getStylesheets().add(
 					getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 			primaryStage.setTitle("Welcome");
 			btnCreate = (Button) scene.lookup("#btnCreate");
@@ -96,16 +97,18 @@ public class UserLogIn extends Application {
 							if (rs.getString(1).equalsIgnoreCase(pass)) {
 
 								JOptionPane.showMessageDialog(null,
-										"Đã đăng nhập thành công");
+										"Đăng nhập thành công");
 
 								primaryStage.close();
-								new SipAgent().start(primaryStage);
+								new SipAgent().start(new Stage());
+								
+		
 
 							}
 
 							else
 								JOptionPane.showMessageDialog(null,
-										"Sai mật khẩu xin mời nhập lại");
+										"Sai mật khẩ xin mời nhập lại");
 
 						} else
 							JOptionPane.showMessageDialog(null,

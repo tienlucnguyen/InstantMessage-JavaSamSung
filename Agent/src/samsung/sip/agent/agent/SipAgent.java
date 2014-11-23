@@ -1,4 +1,4 @@
-package samsung.sip.agent;
+package samsung.sip.agent.agent;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -29,7 +29,7 @@ public class SipAgent extends Application {
 	private int desPort = 1501;
 	private String serverIP = "localhost";
 	private AOR serverAOR = new AOR("server", "yahoo.com");
-	private AOR desAOR = new AOR("tienluc", "yahoo.com");
+	private AOR desAOR = new AOR("hung", "yahoo.com");
 	private ContactAddress serverContactAddress = new ContactAddress("server",
 			serverIP);
 	private ContactAddress MyContactAddress;
@@ -42,13 +42,14 @@ public class SipAgent extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("Agent.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/samsung/sip/giaodien/Agent.fxml"));
 			Scene scene = new Scene(root, 719, 536);
 			scene.getStylesheets().add(
 					getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			primaryStage.setTitle("Sip Agent");
+			primaryStage.setResizable(false);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,44 +104,5 @@ public class SipAgent extends Application {
 
 	}
 
-	public void sendINVITE() {
-		try {
-			// Creat INVITE Message
-			// StatusLine: INVITE tienluc@yahoo.com SIP 2.0
-			StatusLine statusLine = new StatusLine("INVITE", desAOR, "SIP 2.0");
-			// HeaderField:
-			// From: ngocson@myIP
-			// To: tienluc@desIP
-			// Via: Server
-			// Via: ngocson@myIP
-			// Contact: ngocson@myIP
-			DesContactAddress = new ContactAddress("tienluc", desIP);
-			HeaderField headerField = new HeaderField(MyContactAddress,
-					DesContactAddress, serverContactAddress, MyContactAddress,
-					MyContactAddress);
-			// MessageBody:
-			// Content-Length: 6
-			// Content: INVITE
-			MessageBody messageBody = new MessageBody(5, "INVITE");
-			INVITEMessage = new SipMessage("request", statusLine, headerField,
-					messageBody);
-
-			// Send to server
-			socketInvite = new Socket(serverIP, 1992);
-			ObjectOutputStream inviteObject = new ObjectOutputStream(
-					socketInvite.getOutputStream());
-			inviteObject.writeObject(INVITEMessage);
-
-			// taEvent.append(INVITEMessage.getSipMessage());
-			// taEvent.setCaretPosition(taEvent.getDocument().getLength());
-			socketInvite.close();
-			inviteObject.close();
-		} catch (IOException ex) {
-			System.out.println(ex.toString());
-		}
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
+	
 }
