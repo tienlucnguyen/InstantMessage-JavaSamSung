@@ -212,7 +212,7 @@ public class SipServer extends Application {
 
 	public void send200OK(int port) {
 		ObjectOutputStream OO = null;
-		String From = sipMessage.getHeaderField().getFrom().getName();
+		String from = sipMessage.getHeaderField().getFrom().getName();
 		try {
 			// Statusline: SIP 2.0 200 OK
 			StatusLine statusLine = new StatusLine("SIP 2.0", 200, "OK");
@@ -247,7 +247,8 @@ public class SipServer extends Application {
 			System.out.println(ex.toString());
 		}
 		System.out.println("Sent 200 OK");
-
+		// taEvent.append(OKMessage.getSipMessage());
+		// taEvent.setCaretPosition(taEvent.getDocument().getLength());
 	}
 
 	public void sendUPDATE(AOR desAOR, ContactAddress desContactAddress,
