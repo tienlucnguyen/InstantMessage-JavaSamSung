@@ -103,6 +103,48 @@ public class SipAgent extends Application {
 		}
 
 	}
+	
+	public void sendOK() {
+        try {
+            //Creat 200 OK Message
+            //StatusLine: SIP 2.0 200 OK
+            StatusLine statusLine = new StatusLine("SIP 2.0", 200, "OK");
+            //HeaderField
+            //From:auto@myIP
+            //To:hung@desIP
+            //Via: server@yahoo.com
+            //Via: auto@myIP
+            //Contact: auto@myIP
+            DesContactAddress = new ContactAddress("hung", desIP);
+            HeaderField headerField = new HeaderField(MyContactAddress, DesContactAddress,
+                    MyContactAddress, serverContactAddress, MyContactAddress);
+            //MessageBody
+            //Content-Length:5
+            //Content: 200 OK
+            MessageBody messageBody = new MessageBody(6, "200 OK");
+            //OK Message
+            OKMessage = new SipMessage("response", statusLine, headerField, messageBody);
+            //Send
+            socketOK = new Socket(serverIP, 1992);
+            ObjectOutputStream okObject = new ObjectOutputStream(socketOK.getOutputStream());
+            okObject.writeObject(OKMessage);
+
+           // taEvent.append(OKMessage.getSipMessage());
+            //taEvent.setCaretPosition(taEvent.getDocument().getLength());
+            socketOK.close();
+            okObject.close();
+
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+	
+	
+	
+	
+	
+
+	
 
 	
 }
