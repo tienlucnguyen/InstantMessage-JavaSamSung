@@ -42,7 +42,8 @@ public class SipAgent extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/samsung/sip/giaodien/Agent.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource(
+					"/samsung/sip/giaodien/Agent.fxml"));
 			Scene scene = new Scene(root, 719, 536);
 			scene.getStylesheets().add(
 					getClass().getResource("application.css").toExternalForm());
@@ -103,48 +104,80 @@ public class SipAgent extends Application {
 		}
 
 	}
-	
+
 	public void sendOK() {
-        try {
-            //Creat 200 OK Message
-            //StatusLine: SIP 2.0 200 OK
-            StatusLine statusLine = new StatusLine("SIP 2.0", 200, "OK");
-            //HeaderField
-            //From:auto@myIP
-            //To:hung@desIP
-            //Via: server@yahoo.com
-            //Via: auto@myIP
-            //Contact: auto@myIP
-            DesContactAddress = new ContactAddress("hung", desIP);
-            HeaderField headerField = new HeaderField(MyContactAddress, DesContactAddress,
-                    MyContactAddress, serverContactAddress, MyContactAddress);
-            //MessageBody
-            //Content-Length:5
-            //Content: 200 OK
-            MessageBody messageBody = new MessageBody(6, "200 OK");
-            //OK Message
-            OKMessage = new SipMessage("response", statusLine, headerField, messageBody);
-            //Send
-            socketOK = new Socket(serverIP, 1992);
-            ObjectOutputStream okObject = new ObjectOutputStream(socketOK.getOutputStream());
-            okObject.writeObject(OKMessage);
+		try {
+			// Creat 200 OK Message
+			// StatusLine: SIP 2.0 200 OK
+			StatusLine statusLine = new StatusLine("SIP 2.0", 200, "OK");
+			// HeaderField
+			// From:auto@myIP
+			// To:hung@desIP
+			// Via: server@yahoo.com
+			// Via: auto@myIP
+			// Contact: auto@myIP
+			DesContactAddress = new ContactAddress("hung", desIP);
+			HeaderField headerField = new HeaderField(MyContactAddress,
+					DesContactAddress, MyContactAddress, serverContactAddress,
+					MyContactAddress);
+			// MessageBody
+			// Content-Length:5
+			// Content: 200 OK
+			MessageBody messageBody = new MessageBody(6, "200 OK");
+			// OK Message
+			OKMessage = new SipMessage("response", statusLine, headerField,
+					messageBody);
+			// Send
+			socketOK = new Socket(serverIP, 1992);
+			ObjectOutputStream okObject = new ObjectOutputStream(
+					socketOK.getOutputStream());
+			okObject.writeObject(OKMessage);
 
-           // taEvent.append(OKMessage.getSipMessage());
-            //taEvent.setCaretPosition(taEvent.getDocument().getLength());
-            socketOK.close();
-            okObject.close();
+			// taEvent.append(OKMessage.getSipMessage());
+			// taEvent.setCaretPosition(taEvent.getDocument().getLength());
+			socketOK.close();
+			okObject.close();
 
-        } catch (IOException ex) {
-            System.out.println(ex.toString());
-        }
-    }
-	
-	
-	
-	
-	
+		} catch (IOException ex) {
+			System.out.println(ex.toString());
+		}
+	}
 
-	
+	public void sendINVITE() {
+		try {
+			// Creat INVITE Message
+			// StatusLine: INVITE hung@yahoo.com SIP 2.0
+			StatusLine statusLine = new StatusLine("INVITE", desAOR, "SIP 2.0");
+			// HeaderField:
+			// From: auto@myIP
+			// To: hung@desIP
+			// Via: Server
+			// Via: auto@myIP
+			// Contact: auto@myIP
+			DesContactAddress = new ContactAddress("hung", desIP);
+			HeaderField headerField = new HeaderField(MyContactAddress,
+					DesContactAddress, serverContactAddress, MyContactAddress,
+					MyContactAddress);
+			// MessageBody:
+			// Content-Length: 6
+			// Content: INVITE
+			MessageBody messageBody = new MessageBody(5, "INVITE");
+			INVITEMessage = new SipMessage("request", statusLine, headerField,
+					messageBody);
 
-	
+			// Send to server
+			socketInvite = new Socket(serverIP, 1992);
+			ObjectOutputStream inviteObject = new ObjectOutputStream(
+					socketInvite.getOutputStream());
+			inviteObject.writeObject(INVITEMessage);
+
+			// taEvent.append(INVITEMessage.getSipMessage());
+			// taEvent.setCaretPosition(taEvent.getDocument().getLength());
+			socketInvite.close();
+			inviteObject.close();
+		} catch (IOException ex) {
+			System.out.println(ex.toString());
+		}
+	}
+
 }
