@@ -295,6 +295,43 @@ public class SipServer extends Application {
 
 	}
 
+	public void forwardSTORE(String To) {
+		if (To.equals("auto")) {
+			System.out.println(agent1IP);
+			for (int i = 0; i < user1Store.size(); i++) {
+				try {
+					socketAgent = new Socket(agent1IP, agent1Port);
+					ObjectOutputStream fowardObject = new ObjectOutputStream(
+							socketAgent.getOutputStream());
+					fowardObject.writeObject(user1Store.get(i));
+					socketAgent.close();
+					fowardObject.close();
+				} catch (IOException ex) {
+
+				}
+			}
+			user1Infor[4] = 0;
+			user1Store.clear();
+		} else if (To.equals("tienluc")) {
+			// System.out.println(Agent2IP);
+			for (int i = 0; i < user2Store.size(); i++) {
+				try {
+					socketAgent = new Socket(agent2IP, agent2Port);
+					ObjectOutputStream fowardObject = new ObjectOutputStream(
+							socketAgent.getOutputStream());
+					fowardObject.writeObject(user2Store.get(i));
+					socketAgent.close();
+					fowardObject.close();
+				} catch (IOException ex) {
+
+				}
+			}
+			user2Infor[4] = 0;
+			user2Store.clear();
+
+		}
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
