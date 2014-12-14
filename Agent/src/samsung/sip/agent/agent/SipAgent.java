@@ -179,5 +179,39 @@ public class SipAgent extends Application {
 			System.out.println(ex.toString());
 		}
 	}
+	
+	public void sendBYE() {
+        try {
+            //Creat BYE Message
+            //StatusLine: BYE hung@yahoo.com SIP 2.0
+            StatusLine statusLine = new StatusLine("BYE", desAOR, "SIP 2.0");
+            //HeaderField
+            //From:auto@myIP
+            //To:hung@desIP
+            //Via: server@yahoo.com
+            //Via: auto@myIP
+            //Contact: auto@myIP
+            DesContactAddress = new ContactAddress("hung", desIP);
+            HeaderField headerField = new HeaderField(MyContactAddress, DesContactAddress,
+                    MyContactAddress, serverContactAddress, MyContactAddress);
+            //MessageBody
+            //Content-Length:5
+            //Content: 200 OK
+            MessageBody messageBody = new MessageBody(3, "BYE");
+            //OK Message
+            BYEMessage = new SipMessage("request", statusLine, headerField, messageBody);
+            //Send
+            socketBye = new Socket(desIP, desPort);
+            ObjectOutputStream byeObject = new ObjectOutputStream(socketBye.getOutputStream());
+            byeObject.writeObject(BYEMessage);
+            
+            socketBye.close();
+            byeObject.close();
+
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+	
 
 }
