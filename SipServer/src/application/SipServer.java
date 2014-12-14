@@ -332,6 +332,36 @@ public class SipServer extends Application {
 		}
 	}
 
+	public void forwardMESSAGE(String To) {
+		if (To.equals("auto")) {
+			try {
+				socketAgent = new Socket(agent1IP, agent1Port);
+				ObjectOutputStream fowardObject = new ObjectOutputStream(
+						socketAgent.getOutputStream());
+				fowardObject.writeObject(sipMessage);
+				socketAgent.close();
+				fowardObject.close();
+			} catch (IOException ex) {
+
+				System.out.println(ex.toString());
+
+			}
+		} else if (To.equals("tienluc")) {
+			try {
+				socketAgent = new Socket(agent2IP, agent2Port);
+				ObjectOutputStream fowardObject = new ObjectOutputStream(
+						socketAgent.getOutputStream());
+				fowardObject.writeObject(sipMessage);
+				socketAgent.close();
+				fowardObject.close();
+			} catch (IOException ex) {
+
+				System.out.println(ex.toString());
+
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}

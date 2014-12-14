@@ -34,7 +34,8 @@ public class UserLogIn extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-			Parent root = FXMLLoader.load(getClass().getResource("/samsung/sip/giaodien/LogIn.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource(
+					"/samsung/sip/giaodien/LogIn.fxml"));
 			Scene scene = new Scene(root, 378, 296);
 			scene.getStylesheets().add(
 					getClass().getResource("application.css").toExternalForm());
@@ -101,8 +102,6 @@ public class UserLogIn extends Application {
 
 								primaryStage.close();
 								new SipAgent().start(new Stage());
-								
-		
 
 							}
 

@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="745.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <tabs>
-    <Tab fx:id="tabDatabase" text="Database">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="665.0">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.802675585284281" layoutX="120.0" layoutY="69.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView prefHeight="368.0" prefWidth="745.0">
+                  <TableView fx:id="tableID" layoutX="107.0" layoutY="62.0" prefHeight="477.0" prefWidth="798.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="ID" />
-                      <TableColumn prefWidth="152.0" text="AOR" />
-                        <TableColumn prefWidth="187.0" text="Contact Address" />
-                        <TableColumn prefWidth="149.0" text="Status" />
-                        <TableColumn prefWidth="181.0" text="Offline Messages" />
+                      <TableColumn fx:id="iID" prefWidth="44.0" text="ID" />
+                      <TableColumn fx:id="iAccount" prefWidth="261.0" text="AOR" />
+                        <TableColumn fx:id="iAddress" minWidth="0.0" prefWidth="245.0" text="Contact Address" />
+                        <TableColumn fx:id="iState" prefWidth="118.0" text="State" />
+                        <TableColumn fx:id="iOfflineMessage" prefWidth="116.0" text="Offline Message" />
                     </columns>
                   </TableView>
-               </children></AnchorPane>
-      </content>
-    </Tab>
-    <Tab fx:id="tabEvent" text="Event">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TextArea fx:id="textEvent" layoutX="-1.0" prefHeight="366.0" prefWidth="745.0" />
+                  <TextField fx:id="accountInput" layoutX="44.0" layoutY="29.0" prefHeight="22.0" prefWidth="130.0" promptText="Name" />
+                  <TextField fx:id="addressInput" layoutX="210.0" layoutY="29.0" prefHeight="22.0" prefWidth="130.0" promptText="Date" />
+                  <TextField fx:id="stateInput" layoutX="366.0" layoutY="29.0" prefHeight="22.0" prefWidth="130.0" promptText="Price" />
+                  <Button layoutX="655.0" layoutY="29.0" mnemonicParsing="false"  prefHeight="22.0" prefWidth="85.0" text="Submit" />
+                  <TextField fx:id="offlineMessageInput" layoutX="518.0" layoutY="29.0" prefHeight="22.0" prefWidth="130.0" promptText="Number" />
                </children></AnchorPane>
-      </content>
-    </Tab>
-  </tabs>
-</TabPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
