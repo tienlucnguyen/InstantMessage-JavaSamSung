@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="mainRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="224.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <Label layoutX="65.0" layoutY="103.0" text="sip:" />
+      <TextField fx:id="taAor" layoutX="112.0" layoutY="98.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="45.0" layoutY="34.0" text="Welcome" textFill="#5d3aeb">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Button layoutX="129.0" layoutY="153.0" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="26.0" prefWidth="90.0" text="Log in" />
+   </children>
+</AnchorPane>
