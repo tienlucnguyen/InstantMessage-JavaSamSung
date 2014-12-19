@@ -66,7 +66,7 @@ public class AgentController implements Initializable {
 	private int myID;
 
 	// Properties of SERVER
-	private final String serverIP = "192.168.1.5";
+	private final String serverIP = "192.168.137.105";
 	private final int serverPort = 1992;
 	private ContactAddress serverContactAddress = new ContactAddress("server",
 			serverIP);
@@ -226,7 +226,7 @@ public class AgentController implements Initializable {
 									.getContent().split("=")[0]);
 							showDialog(desStringAOR, desIP, desID);
 
-						} else if (messageBody.getContent().equals("200 FAIL")) {
+						} else if (messageBody.getContent().equals("200 AOR FAIL")) {
 							JOptionPane.showMessageDialog(null,
 									"Account isn't exist!!!");
 						} else {
@@ -439,12 +439,12 @@ public class AgentController implements Initializable {
 				Stage dialogStage = new Stage();
 				dialogStage.setScene(scene);
 				dialogStage.show();
-				dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-					@Override
-					public void handle(WindowEvent event) {
-						System.out.println("Close Dialog");
-					}
-				});
+//				dialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//					@Override
+//					public void handle(WindowEvent event) {
+//						System.out.println("Close Dialog");
+//					}
+//				});
 			}
 		});
 	}

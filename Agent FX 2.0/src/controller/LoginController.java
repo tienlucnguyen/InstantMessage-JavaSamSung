@@ -41,7 +41,7 @@ public class LoginController implements Initializable {
 	Parent mainRoot;
 
 	// SERVER properties
-	private final String serverIP = "192.168.1.5";
+	private final String serverIP = "192.168.137.105";
 	private final int serverPort = 1992;
 	private ContactAddress serverContactAddress = new ContactAddress("server",
 			serverIP);
@@ -96,9 +96,12 @@ public class LoginController implements Initializable {
 								"Account isn't exist!!!");
 
 					} else {
-						myID = Integer.parseInt(sipMessage.getMessageBody().getContent().split("=")[0]);
+						myID = Integer.parseInt(sipMessage.getMessageBody()
+								.getContent().split("=")[0]);
 						System.out.println("myID = " + myID);
 						showAgent();
+						showOfflineDialog(sipMessage.getHeaderField().getTo()
+								.getAOR());
 						break;
 					}
 
@@ -116,6 +119,29 @@ public class LoginController implements Initializable {
 
 	}
 
+	public void showOfflineDialog(String aor) {
+		FXMLLoader offlineDialogLoader = new FXMLLoader(
+				LoginController.class.getResource("DialogOffline.fxml"));
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Scene scene = new Scene(offlineDialogLoader.load());
+					Stage offlineDialogStage = new Stage();
+					offlineDialogStage.setScene(scene);
+					offlineDialogStage.setTitle(aor);
+					offlineDialogStage.show();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+	}
+
 	public void showAgent() throws IOException {
 		FXMLLoader agentLoader = new FXMLLoader(
 				LoginController.class.getResource("Agent.fxml"));
@@ -125,7 +151,7 @@ public class LoginController implements Initializable {
 			public Object call(Class<?> cls) {
 				if (cls == AgentController.class) {
 					return new AgentController(taAor.getText(), myIP,
-							agentServer,myID);
+							agentServer, myID);
 				} else {
 					try {
 						return cls.newInstance();

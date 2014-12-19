@@ -19,18 +19,23 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.WindowEvent;
 
 public class DialogController implements Initializable {
 	/*
 	 * Define FORM Define Variables Define some characteristic of Dialog
 	 */
+	@FXML
+	Parent dialogRoot;
 	@FXML
 	TextArea taDialog;
 	@FXML
@@ -43,7 +48,7 @@ public class DialogController implements Initializable {
 	Tab tabDesAOR;
 
 	// Properties of SERVER
-	private final String serverIP = "192.168.1.5";
+	private final String serverIP = "192.168.137.105";
 	private final int serverPort = 1992;
 	private ContactAddress serverContactAddress = new ContactAddress("server",
 			serverIP);
@@ -51,18 +56,20 @@ public class DialogController implements Initializable {
 
 	private final int agentPort = 1993;
 	// Properties of dialog
+	private boolean close;
 	private String desStringAOR, myStringAOR;
 	private AOR desAOR, myAOR;
 	private String desState, desIP;
 	private ContactAddress myContactAddress, desContacAddress;
 	private ServerSocket dialogServer;
-	private int myPort,desPort;
+	private int myPort, desPort;
 
 	// Constructor
 	public DialogController(String myStringAOR,
 			ContactAddress myContactAddress, String desStringAOR, String desIP,
 			int myID, int desID) {
-		
+
+		this.close = false;
 		this.myStringAOR = myStringAOR;
 		this.desStringAOR = desStringAOR;
 
@@ -85,6 +92,8 @@ public class DialogController implements Initializable {
 				desIP);
 		try {
 			this.dialogServer = new ServerSocket(myPort);
+			System.out.println("OPEN PORT");
+			System.out.println(close);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -138,62 +147,72 @@ public class DialogController implements Initializable {
 
 	public void dialogRunning() {
 		while (true) {
-			Socket socketToAgent = null;
-			ObjectInputStream OI = null;
-			try {
-				socketToAgent = dialogServer.accept();
-				OI = new ObjectInputStream(
-						socketToAgent.getInputStream());
-				SipMessage sipMessage = (SipMessage) OI.readObject();
-
-				/*
-				 * If dialog receive SipMessage "online" MESSAGE message ->
-				 * display BYE Message -> close Dialog
-				 */
-				if (sipMessage != null) {
-
-					System.out.println("receiver SIP MESSAGE");
-
-					String messageType = sipMessage.getType();
-					StatusLine statusLine = sipMessage.getStatusLine();
-					HeaderField headerField = sipMessage.getHeaderField();
-					MessageBody messageBody = sipMessage.getMessageBody();
-					//
-					if (sipMessage.getType().equals("online")) {
-
-						System.out.println("receive MESSAGE MESSAGE");
-						Platform.runLater(new Runnable() {
-
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								taSchedule.appendText("\n"
-										+ sipMessage.getSipMessage());
-								taDialog.appendText("\n<" + desStringAOR
-										+ ">: " + messageBody.getContent());
-
-							}
-						});
-
-					}
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
+			if (!close) {
+				Socket socketToAgent = null;
+				ObjectInputStream OI = null;
 				try {
-					socketToAgent.close();
-					OI.close();
+					socketToAgent = dialogServer.accept();
+					OI = new ObjectInputStream(socketToAgent.getInputStream());
+					SipMessage sipMessage = (SipMessage) OI.readObject();
+
+					/*
+					 * If dialog receive SipMessage "online" MESSAGE message ->
+					 * display BYE Message -> close Dialog
+					 */
+					if (sipMessage != null) {
+
+						System.out.println("receiver SIP MESSAGE");
+
+						String messageType = sipMessage.getType();
+						StatusLine statusLine = sipMessage.getStatusLine();
+						HeaderField headerField = sipMessage.getHeaderField();
+						MessageBody messageBody = sipMessage.getMessageBody();
+						//
+						if (sipMessage.getType().equals("online")) {
+
+							System.out.println("receive MESSAGE MESSAGE");
+							Platform.runLater(new Runnable() {
+
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									taSchedule.appendText("\n"
+											+ sipMessage.getSipMessage());
+									taDialog.appendText("\n<" + desStringAOR
+											+ ">: " + messageBody.getContent());
+
+								}
+							});
+
+						}
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					try {
+						socketToAgent.close();
+						OI.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+
+			}else{
+				try {
+					dialogServer.close();
+					break;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
 			}
-
 		}
 
 	}
@@ -227,8 +246,7 @@ public class DialogController implements Initializable {
 			ObjectOutputStream OO = null;
 			try {
 				socketToAgent = new Socket(desIP, desPort);
-			    OO = new ObjectOutputStream(
-						socketToAgent.getOutputStream());
+				OO = new ObjectOutputStream(socketToAgent.getOutputStream());
 				OO.writeObject(messageMessage);
 
 				Platform.runLater(new Runnable() {
@@ -250,7 +268,7 @@ public class DialogController implements Initializable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}finally{
+			} finally {
 				try {
 					socketToAgent.close();
 					OO.close();
@@ -258,7 +276,7 @@ public class DialogController implements Initializable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		} else if (type.equals("offline")) {
 			// Status Line: INVITE desAOR SIP 2.0
@@ -282,9 +300,8 @@ public class DialogController implements Initializable {
 			Socket socketToServer = null;
 			ObjectOutputStream OO = null;
 			try {
-			    socketToServer = new Socket(serverIP, serverPort);
-				 OO = new ObjectOutputStream(
-						socketToServer.getOutputStream());
+				socketToServer = new Socket(serverIP, serverPort);
+				OO = new ObjectOutputStream(socketToServer.getOutputStream());
 				OO.writeObject(messageMessage);
 
 				Platform.runLater(new Runnable() {
@@ -323,6 +340,16 @@ public class DialogController implements Initializable {
 
 	}
 
+	public void onClose(ActionEvent e){
+		close = true;
+		System.out.println("CLOSE:"+close);
+		try {
+			dialogServer.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 	public void onPressEnter(KeyEvent key) {
 		if (key.getCode() == KeyCode.ENTER) {
 			if (desState.equals("online")) {

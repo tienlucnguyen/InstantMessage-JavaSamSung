@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import samsung.sip.message.HeaderField;
@@ -80,8 +81,8 @@ public class MainController implements Initializable {
 
 	// for connect database
 	private final String url = "jdbc:mysql://localhost/sipserver_ver_2";
-	private final String user = "auto";
-	private final String password = "thuongkute";
+	private final String user = "server";
+	private final String password = "123456";
 	private static int iNum = 0;
 	private Connection connect;
 	private Statement statement;
@@ -94,7 +95,7 @@ public class MainController implements Initializable {
 	private ServerSocket SERVER;
 	private Socket socketFromAgent, socketToAgent;
 	private final int agentPort = 1993;
-	private final String serverIP = "192.168.1.5";
+	private final String serverIP = "192.168.137.105";
 	private final ContactAddress serverContactAddress = new ContactAddress(
 			"server", serverIP);
 	private final AOR serverAOR = new AOR("server", "yahoo.com");
@@ -104,6 +105,8 @@ public class MainController implements Initializable {
 	private ObjectInputStream OI;
 	private ObjectOutputStream OO;
 
+	private ArrayList<SipMessage>[] offlineMessageDatabase = new ArrayList[1000];
+
 	// =============================================================================
 	// RUN WHEN FORM WAS LOADED
 	@Override
@@ -112,6 +115,9 @@ public class MainController implements Initializable {
 		 * The first openning
 		 */
 
+		for (int i = 0; i < 1000; i++) {
+			this.offlineMessageDatabase[i] = new ArrayList<SipMessage>();
+		}
 		// Config ScrollBar for TextArea
 		taSchedule.textProperty().addListener(new ChangeListener<Object>() {
 
@@ -166,8 +172,10 @@ public class MainController implements Initializable {
 
 	private void loadTable() {
 		// TODO Auto-generated method stub
+
+		data.clear();
+
 		try {
-			data.clear();
 			iNum = 0;
 			resultSet = statement.executeQuery("Select * from agent");
 			while (resultSet.next()) {
@@ -223,7 +231,7 @@ public class MainController implements Initializable {
 					String agentIP = headerField.getContact().getAddress();
 
 					// 2.
-					// If sipMessage is request Message
+					// If RECEIVE REQUEST MESSAGE
 					if (sipMessage.getType().equals("request")) {
 
 						System.out.println("receive request");
@@ -234,6 +242,7 @@ public class MainController implements Initializable {
 							System.out.println("receive REGISTER");
 							if (messageBody.getContent().equals("online")) {
 
+								int desID = 0;
 								// check database & send response 200
 								resultSet = statement
 										.executeQuery("SELECT id from agent WHERE aor='"
@@ -241,12 +250,19 @@ public class MainController implements Initializable {
 
 								if (resultSet.next()) {
 
-									send200(sipMessage, resultSet.getInt(1)+"=200 OK");
+									// Receive valid REGISTER ONLINE-> forward
+									// offlineMessage
+
+									desID = resultSet.getInt(1);
+									//
+									send200(sipMessage, resultSet.getInt(1)
+											+ "=200 OK");
 									statement
 											.executeUpdate("UPDATE agent SET address='"
 													+ agentIP
 													+ "',state='online' WHERE id="
-													+ resultSet.getInt(1)+"");
+													+ resultSet.getInt(1) + "");
+									ArrayList<SipMessage> forwardArrayList = new ArrayList<SipMessage>();
 									loadTable();
 								} else {
 
@@ -254,6 +270,23 @@ public class MainController implements Initializable {
 
 								}
 								// Update database
+								if (desID > 0) {
+									ArrayList<SipMessage> forwardArrayList = new ArrayList<SipMessage>();
+
+									forwardArrayList = offlineMessageDatabase[desID - 1];
+
+									if (forwardArrayList.size() > 0) {
+										forwardOfflineMessage(sipMessage
+												.getHeaderField().getContact()
+												.getAddress(), forwardArrayList);
+									}
+
+									statement
+											.executeUpdate("UPDATE agent SET offlineMessage=0 WHERE id="
+													+ desID + "");
+									loadTable();
+
+								}
 
 							}
 							// if REGISTER offline
@@ -302,18 +335,41 @@ public class MainController implements Initializable {
 									ObjectOutputStream OO = new ObjectOutputStream(
 											socketToAgent.getOutputStream());
 									OO.writeObject(sipMessage);
-									
+
 									System.out.println("sendFORWARD");
 
 								} else if (resultSet.getString(4).equals(
 										"offline")) {
 									// send 200 OFFLINE
-									send200(sipMessage, resultSet.getInt(1)+"="+resultSet.getString(2)+"=OFFLINE");
+									send200(sipMessage, resultSet.getInt(1)
+											+ "=" + resultSet.getString(2)
+											+ "=OFFLINE");
 
 								}
-							}else{//if desAOR is invalid
+							} else {// if desAOR is invalid -> send 200 FAIL
 								send200(sipMessage, "200 AOR FAIL");
 							}
+						}
+
+						// IF RECEIVE OFFLINE MESSAGE
+					} else if (sipMessage.getType().equals("offline")) {
+						// save message to offlineMessageDatabase & loadDatabase
+						String desName = headerField.getTo().getName();
+						String desHost = headerField.getTo().getHost();
+						String desStringAOR = desName + "@" + desHost;
+						resultSet = statement
+								.executeQuery("SELECT id,offlineMessage from agent where aor='"
+										+ desStringAOR + "'");
+
+						if (resultSet.next()) {
+							int desID = resultSet.getInt(1);
+							System.out.println("save to: " + desID);
+							offlineMessageDatabase[desID - 1].add(sipMessage);
+							statement
+									.executeUpdate("UPDATE agent SET offlineMessage=(offlineMessage+1) WHERE id="
+											+ desID + "");
+
+							loadTable();
 						}
 
 					}
@@ -417,4 +473,28 @@ public class MainController implements Initializable {
 
 	}
 
+	public void forwardOfflineMessage(String desIP,
+			ArrayList<SipMessage> forwardArrayList) {
+
+		System.out.println(desIP);
+
+		for (int i = 0; i < forwardArrayList.size(); i++) {
+			try {
+				Socket socketForward = new Socket(desIP, 1899);
+				ObjectOutputStream OO = new ObjectOutputStream(
+						socketForward.getOutputStream());
+				OO.writeObject(forwardArrayList.get(i));
+				System.out.println(forwardArrayList.get(i).getSipMessage());
+
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		forwardArrayList.clear();
+	}
 }
